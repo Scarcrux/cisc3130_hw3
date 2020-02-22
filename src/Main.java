@@ -9,56 +9,56 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-  class MovieBST {
-    private MovieNode root;
+class MovieBST {
+  private MovieNode root;
 
-    // gets root movie
-    public MovieNode getRoot() {
-      return root;
+  // gets root movie
+  public MovieNode getRoot() {
+    return root;
+  }
+
+  // inserts element into tree
+  public void put(String key, int value) {
+    if (root == null) {
+      root = new MovieNode( key, value );
+    } else {
+      root.put( key, value );
+    }
+  }
+
+  // finds key and returns value if it exists
+  public String get(String key) {
+    return root == null ? null : root.get(key);
+  }
+
+  // Selects movie titles that fall alphabetically between start and end
+  public void Print(MovieNode node, String title1, String title2) {
+    /* base case */
+    if (node == null) {
+      return;
     }
 
-    // inserts element into tree
-    public void put(String key, int value) {
-      if (root == null) {
-        root = new MovieNode( key, value );
-      } else {
-        root.put( key, value );
-      }
+    // If root is greater than title1, then check left subtree
+    if (title1.compareTo(node.getTitle()) < 0) {
+        Print(node.getLeft(), title1, title2);
     }
 
-    // finds key and returns value if it exists
-    public String get(String key) {
-      return root == null ? null : root.get(key);
+    /* If root is within range, then print the title */
+    if ((title1.compareTo(node.getTitle()) < 0
+      || title1.compareTo(node.getTitle()) == 0)
+      && (title2.compareTo(node.getTitle()) > 0
+      || title2.compareTo(node.getTitle()) == 0)) {
+      System.out.print(node.getTitle() + " ");
     }
 
-    // Selects movie titles that fall alphabetically between start and end
-    public void Print(MovieNode node, String title1, String title2) {
-      /* base case */
-      if (node == null) {
-        return;
-      }
-
-      // If root is greater than title1, then check left subtree
-      if (title1.compareTo(node.getTitle()) < 0) {
-          Print(node.getLeft(), title1, title2);
-      }
-
-      /* If root is within range, then print the title */
-      if ((title1.compareTo(node.getTitle()) < 0
-        || title1.compareTo(node.getTitle()) == 0)
-        && (title2.compareTo(node.getTitle()) > 0
-        || title2.compareTo(node.getTitle()) == 0)) {
-        System.out.print(node.getTitle() + " ");
-      }
-
-      /* If root is smaller than title2, then check right subtree */
-      if (title2.compareTo(node.getTitle()) > 0) {
-        Print(node.getRight(), title1, title2);
-      }
+    /* If root is smaller than title2, then check right subtree */
+    if (title2.compareTo(node.getTitle()) > 0) {
+      Print(node.getRight(), title1, title2);
     }
+  }
 }
 
-  class MovieNode {
+class MovieNode {
   private String title;
   private int releaseYear;
   private MovieNode left, right;
